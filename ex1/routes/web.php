@@ -16,8 +16,12 @@
 // });
 
 Route::get('/', "HomeController@index");
+
 Route::get('/contacto', "ContactosController@index");
 Route::post('/contacto/criar', "ContactosController@create");
 Route::get('/contacto/resposta', "ContactosController@show");
+
 Route::get('/curso',"CursoController@index");
 Route::get('/curso/{id}/inscrever',"CursoController@inscrever");
+Route::post('/curso/{id}/create',"CursoController@create");
+Route::get('curso/inscrito', "CursoController@show");

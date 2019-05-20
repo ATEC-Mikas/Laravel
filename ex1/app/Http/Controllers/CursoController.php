@@ -31,4 +31,26 @@ class CursoController extends Controller
     function inscrever($id) {
         return view("curso/inscrever")->with("curso",$this->curso(intval($id)-1));
     }
+
+    function create($id) {
+        $r = [
+            "nome" => request()->post("nome","vazio"),
+            "morada" => request()->post("morada","vazio"),
+            "codpostal" => request()->post("codpostal","vazio"),
+            "localidade" => request()->post("localidade","vazio"),
+            "nacionalidade" => request()->post("nacionalidade","vazio"),
+            "telefone" => request()->post("telefone","vazio"),
+            "email" => request()->post("email","vazio"),
+            "obs" => request()->post("obs","vazio")
+        ];
+
+        return redirect("/curso/inscrito")->with("resposta",$r);
+    }
+
+    function show() {
+        if(session("resposta")!=null)
+            return view("/curso/resposta")->with("resposta",session("resposta"));
+        else 
+            return redirect("/curso");
+    }
 }
