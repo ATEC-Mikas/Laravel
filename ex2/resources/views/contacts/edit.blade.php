@@ -20,7 +20,7 @@
     
     <section>
         <div class="flex">
-            <form action="/contacts/{{$contact->id}}" method="post">
+            <form action="/contacts/{{$contact->id}}" method="POST">
                 <input name="_method" type="hidden" value="PUT">
                 @csrf
                 <input type="text" name="name" placeholder="Name" value="{{$contact->name}}"/>

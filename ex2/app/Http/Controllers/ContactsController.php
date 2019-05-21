@@ -43,10 +43,18 @@ class ContactsController extends Controller
         if(!isset($c))
             return redirect("/contacts");
         
-        $c->name=request()->put("name","vazio");
-        $c->email=request()->put("email","vazio");
-        $c->message=request()->put("message","vazio");
-        $c.save();
+        $c->name=request()->post("name","vazio");
+        $c->email=request()->post("email","vazio");
+        $c->message=request()->post("message","vazio");
+        $c->save();
+        return redirect("/contacts/".$c->id);
+    }
+
+    function destroy($id) {
+        $c = Contact::find($id);
+        if(isset($c))
+            $c->delete();
+        
         return redirect("/contacts");
     }
 }
