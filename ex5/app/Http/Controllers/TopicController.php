@@ -93,6 +93,8 @@ class TopicController extends Controller
      */
     public function destroy(Topic $topic)
     {
+        if(Auth::user()->id!=$topic->user_id)
+            return redirect("/topics/".$topic->id);
         $topic->open=!$topic->open;
         $topic->save();
         return redirect("/topics/".$topic->id);

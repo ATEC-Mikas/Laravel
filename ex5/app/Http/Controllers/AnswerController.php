@@ -41,7 +41,7 @@ class AnswerController extends Controller
         request()->validate([
             "answer" => "required|min:10",
         ]);
-        if(Auth::user()->id==Topic::find($id)->user_id || !Topic::find($id)->open)
+        if(Auth::user()->id==Topic::find($id)->user_id || !Topic::find($id)->open || count(Topic_Answered::all()->where('user_id',Auth::user()->id)->where('topic_id',$id))!=0)
             return redirect("/topics/".$id);
 
         $answer= new Answer();

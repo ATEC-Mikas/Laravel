@@ -6,9 +6,6 @@
         color:inherit;
         decoration:none;
     }
-    a.link-unstyled:hover {
-        
-    }
 </style>
 @endsection
 
