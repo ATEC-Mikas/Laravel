@@ -22,7 +22,7 @@
                         <form action="/topics/{{$topic->id}}" method="post" style="display:inline-block;width:100%;border-top:solid 1px #988b8b;padding-top:5px;">
                             @csrf
                             @method('delete')
-                            <input class="btn btn-primary btn-sm" type="submit" value="{{ ($topic->open ? 'Fechar' : 'Abrir') }} Tópico." style="float:right;">
+                            <input class="btn btn-primary btn-sm" type="submit" value="{{ ($topic->open ? 'Fechar' : 'Abrir') }} Tópico" style="float:right;">
                         </form>
                     @endif
                 </div>
@@ -59,11 +59,7 @@
 
                         @endif
                         @if(count($topic->answers)==0)
-                            @if($topic->open)
-                                <h2 style="margin-top:20px;">Ainda não existem respostas.</h2>
-                            @else
-                                <h2 style="margin-top:20px;">Não houve respostas.</h2>
-                            @endif                        
+                                <h2 style="margin-top:20px;">{{($topic->open ? "Ainda não existem respostas." : "Não houve respostas." )}}</h2>
                         @else
                             <h2>Respostas:</h2>
                             @foreach($topic->answers as $answer)
