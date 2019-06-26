@@ -6,6 +6,16 @@
         color:inherit;
         decoration:none;
     }
+
+    div.card-header ol.breadcrumb {
+        padding:0;
+        margin:0;
+        background-color: transparent;
+    }
+
+    a.btn-create {
+        margin-bottom: 10px;
+    }
 </style>
 @endsection
 
@@ -15,9 +25,15 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Topic</div>
+                <div class="card-header">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active" aria-current="page">Topic</li>
+                        </ol>
+                    </nav>
+                </div>
                     <div class="card-body">
-                        <a href="/topics/create">Criar Tópico</a><br>
+                        <a class="btn btn-primary btn-sm btn-create" href="/topics/create">Criar Tópico</a>
 
 
                         @if(count($topics)==0)

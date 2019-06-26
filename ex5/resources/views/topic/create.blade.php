@@ -1,12 +1,28 @@
 @extends('layouts.app')
 
+@section('head')
+<style>
+    div.card-header ol.breadcrumb {
+        padding:0;
+        margin:0;
+        background-color: transparent;
+    }
+</style>
+@endsection
+
 @section('content')
 
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Topic</div>
+                <div class="card-header">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active" aria-current="page">Topic</li>
+                        </ol>
+                    </nav>
+                </div>
                     <div class="card-body">
                     @if ($errors->any())
                         <div class="alert alert-danger">
