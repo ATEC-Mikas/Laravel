@@ -120,7 +120,8 @@ class VoteController extends Controller
             $vote->save();
         } else {
             if($this->CheckVote($id,1)) {
-                Vote::destroy([Auth::user()->id, $id]);
+                Vote::destroy(Vote::where("user_id","=",Auth::user()->id)
+                ->where("post_id","=",$id)->get()[0]->id);
             } else {
                 $vote = Vote::where("user_id","=",Auth::user()->id)
                         ->where("post_id","=",$id)->get();
@@ -141,12 +142,12 @@ class VoteController extends Controller
             $vote->save();
         } else {
             if($this->CheckVote($id,-1)) {
-                Vote::destroy([Auth::user()->id, $id]);
+                Vote::destroy(Vote::where("user_id","=",Auth::user()->id)
+                ->where("post_id","=",$id)->get()[0]->id);
             } else {
                 $vote = Vote::where("user_id","=",Auth::user()->id)
                         ->where("post_id","=",$id)->get();
                 $vote[0]->value = -1;
-                dd($vote);
                 $vote[0]->save();
             }
         }
