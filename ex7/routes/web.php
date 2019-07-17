@@ -11,11 +11,13 @@
 |
 */
 
-Route::get('/', "PostController@index");
 
+Route::get('/', "PostController@index");
 Auth::routes();
 Route::get('/home', "PostController@index");
 Route::resource("/posts", "PostController");
-Route::post("/posts/{id}/up", "VoteController@up");
-Route::post("/posts/{id}/down", "VoteController@down");
+Route::post("/posts/{post}/up", "VoteController@up");
+Route::post("/posts/{post}/down", "VoteController@down");
 
+Route::get("/user/{user}", "PostController@user");
+Route::get("/ajax/{post}", "PostController@ajax");

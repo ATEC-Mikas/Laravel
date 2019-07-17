@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class PostController extends Controller
 {
@@ -20,7 +21,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with("User")->get();
+        $posts = Post::with("User")->orderBy("created_at","desc")->paginate(5);
         return view("posts.index")->with(compact("posts"));
     }
 
@@ -56,7 +57,7 @@ class PostController extends Controller
         $post->image = $image;
         $post->user_id = Auth::user()->id;
         $post->save();
-        // Mail::to("admin@atec.pt")->send(new ProductCreationMail($product));
+        
 
         return redirect("/posts");
     }
@@ -104,5 +105,16 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    public function user(User $user)
+    {
+        $posts = Post::where("user_id", "=", $user->id)->orderBy("created_at","desc")->orderBy("votes","desc")->paginate(5);
+        return view("posts.user")->with(compact("posts"))->with(compact("user"));
+    }
+    
+    public function ajax(Post $post) 
+    {
+        return view("posts._vote")->with(compact("post"));
     }
 }

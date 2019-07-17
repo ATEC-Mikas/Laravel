@@ -6,6 +6,7 @@ use App\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Post;
+use App\Mail\NotificationMail;
 
 class VoteController extends Controller
 {
@@ -111,47 +112,49 @@ class VoteController extends Controller
         //
     }
 
-    public function up($id) {
-        if(!$this->CheckVote($id)) {
+    public function up(Post $post) {
+        if(!$this->CheckVote($post->id)) {
             $vote = new Vote();
             $vote->user_id = Auth::user()->id;
-            $vote->post_id = $id;
+            $vote->post_id = $post->id;
             $vote->value = 1;
             $vote->save();
+            \Mail::to($post->user->email)->send(new NotificationMail($post,Auth::user()->id));
         } else {
-            if($this->CheckVote($id,1)) {
+            if($this->CheckVote($post->id,1)) {
                 Vote::destroy(Vote::where("user_id","=",Auth::user()->id)
-                ->where("post_id","=",$id)->get()[0]->id);
+                ->where("post_id","=",$post->id)->get()[0]->id);
             } else {
                 $vote = Vote::where("user_id","=",Auth::user()->id)
-                        ->where("post_id","=",$id)->get();
+                        ->where("post_id","=",$post->id)->get();
                 $vote[0]->value = 1;
                 $vote[0]->save();
+                \Mail::to($post->user->email)->send(new NotificationMail($post,Auth::user()->id));
             }
         }
-        $this->UpdateVotes($id);
+        $this->UpdateVotes($post->id);
         return redirect("/posts");
     }
 
-    public function down($id) {
-        if(!$this->CheckVote($id)) {
+    public function down(Post $post) {
+        if(!$this->CheckVote($post->id)) {
             $vote = new Vote();
             $vote->user_id = Auth::user()->id;
-            $vote->post_id = $id;
+            $vote->post_id = $post->id;
             $vote->value = -1;
             $vote->save();
         } else {
-            if($this->CheckVote($id,-1)) {
+            if($this->CheckVote($post->id,-1)) {
                 Vote::destroy(Vote::where("user_id","=",Auth::user()->id)
-                ->where("post_id","=",$id)->get()[0]->id);
+                ->where("post_id","=",$post->id)->get()[0]->id);
             } else {
                 $vote = Vote::where("user_id","=",Auth::user()->id)
-                        ->where("post_id","=",$id)->get();
+                        ->where("post_id","=",$post->id)->get();
                 $vote[0]->value = -1;
                 $vote[0]->save();
             }
         }
-        $this->UpdateVotes($id);
+        $this->UpdateVotes($post->id);
         return redirect("/posts");
     }
 

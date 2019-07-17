@@ -17,7 +17,9 @@
 @section('content')
 
     <div class="container" style="margin-bottom:5px;">
-        @include('posts._userbar')
+        <div class="card" style="margin-bottom:5px;">
+            <div class="card-header">A mostrar posts do {{$user->name}}</div>
+        </div>
 
         @include('posts._posts')
          {{$posts->links()}}
